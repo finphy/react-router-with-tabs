@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import { DynamicLoader } from "./Loader";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <BrowserRouter basename="/app">
+      <Routes>
+        <Route
+          path="/"
+          element={<DynamicLoader component="./containers/Layout" />}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Route
+            path="/cat"
+            element={<DynamicLoader component="./containers/Cat" />}
+          ></Route>
+
+          <Route path="/red">
+            <Route
+              index
+              element={<DynamicLoader component="./containers/Red" />}
+            />
+            <Route
+              path=":id"
+              element={<DynamicLoader component="./containers/RedWithParams" />}
+            ></Route>
+          </Route>
+
+          <Route
+            path="/blue"
+            element={<DynamicLoader component="./containers/Blue" />}
+          ></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
